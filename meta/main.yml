@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+---
+galaxy_info:
+  author: Dustin Liddick <dustin.liddick@collegiseducation.com>
+  role_name: rhc
+  namespace: dustinliddick
+  description: Configure connectivity of systems to Red Hat
+  company: Collegis Education
+
+  license: MIT
+
+  min_ansible_version: "2.9"
+
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+
+  galaxy_tags:
+    - subscription
+    - insights
+    - rhsm
+
+dependencies: []
