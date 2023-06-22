@@ -1,0 +1,6 @@
+export KATELLO=$(rpm -qa | grep katello-ca-consumer)
+rpm -e $KATELLO
+subscription-manager remove --all; subscription-manager clean
+curl --insecure --output katello-ca-consumer-latest.noarch.rpm https://satellite8.collegis.corp/pub/katello-ca-consumer-latest.noarch.rpm
+yum localinstall katello-ca-consumer-latest.noarch.rpm -y
+curl -sS  'https://satellite8.collegis.corp/register?activation_keys=soe-base-development&hostgroup_id=1&ignore_subman_errors=true&lifecycle_environment_id=2&location_id=2&organization_id=1&update_packages=false' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE2ODQ4NDQ3MjYsImp0aSI6IjExNTE2YTVhOTZkNmM0NjE4ZTM1ZWQ1NTE5Mzc4OGYzOGQwZDhjNjUxZGU2M2ZiYTZiNDllOWFmMzYwY2JjZDIiLCJzY29wZSI6InJlZ2lzdHJhdGlvbiNnbG9iYWwgcmVnaXN0cmF0aW9uI2hvc3QifQ.DweIZqTM222zmc8rY9fyHKW50KHzwKvRKrxvW3Pebj0' | bash

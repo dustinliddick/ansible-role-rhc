@@ -1,0 +1,38 @@
+---
+- name: remove var cache
+  shell: rm -rf /var/cache/yum/*
+
+- name: remove old katello rpm
+  yum:
+    name: 'katello-ca-consumer*'
+    state: absent
+
+- name: replace rhsm.conf
+  shell: yes |cp /etc/rhsm/rhsm.conf.kat-backup /etc/rhsm/rhsm.conf
+  run_once: true
+
+- name: clean subscription Manager
+  shell: /usr/sbin/subscription-manager clean
+
+- name: Install the katello-ca-consumer-latest.noarch.rpm from {{ satellite_fqdn }}
+  yum:
+    name: https://satellite8.collegis.corp/pub/katello-ca-consumer-latest.noarch.rpm
+    disable_gpg_check: yes
+    state: present
+
+# - name: Activation Key registration
+#   ansible.builtin.get_url:
+#     url: https://satellite8.collegis.corp:9090/register?hostgroup_id=1&location_id=2&organization_id=1&update_packages=false' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE2ODQ3NjE5OTQsImp0aSI6IjBjZTQwZDA5OWM4YTkxNTk4ZjFjNGVkMTFjYTdjOTM5NTQ4NmU3OGI2ZmVkNzJhNWMyYWI2ZmE4ODE0ZTNhMjYiLCJleHAiOjE2ODQ3NzYzOTQsInNjb3BlIjoicmVnaXN0cmF0aW9uI2dsb2JhbCByZWdpc3RyYXRpb24jaG9zdCJ9.xjc01_qLKiPrBLqKllfFKCx3ozxjACS9isX1ruZ00Gw'
+#     dest: /root/satreg.sh
+
+- name: copy satreg installer
+  ansible.builtin.copy:
+    src: files/satregInstaller
+    dest: /root/satregInstaller
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: host registration
+  ansible.builtin.shell:
+    cmd: sh /root/satregInstaller

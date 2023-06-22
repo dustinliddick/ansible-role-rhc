@@ -57,22 +57,22 @@
       or __insights_tags_removed is changed
   changed_when: true
 
-- name: Configure remediation
-  when: rhc_insights.remediation | d("present") == "present"
-  block:
-    - name: Ensure worker and ansible packages are installed
-      package:
-        name:
-          - rhc
-          - rhc-worker-playbook
-          - ansible-core
-        state: present
+# - name: Configure remediation
+#   when: rhc_insights.remediation | d("present") == "present"
+#   block:
+#     - name: Ensure worker and ansible packages are installed
+#       package:
+#         name:
+#           - rhc
+#           - rhc-worker-playbook
+#           - ansible-core
+#         state: present
 
-    - name: Enable remediation
-      systemd:
-        enabled: true
-        state: started
-        name: rhcd
+#     - name: Enable remediation
+#       systemd:
+#         enabled: true
+#         state: started
+#         name: rhcd
 
 - name: Disable remediation
   systemd:

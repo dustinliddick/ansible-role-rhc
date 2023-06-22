@@ -12,6 +12,9 @@
       or rhc_state | d("present") in ["absent", "reconnect"]
     - '"insights-client" in ansible_facts.packages'
 
+# - name: Handle system sanatization
+#   include_tasks: subscription-manager-sanatize.yml
+
 - name: Handle system subscription
   include_tasks: subscription-manager.yml
 
